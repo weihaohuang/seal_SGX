@@ -150,6 +150,13 @@ namespace seal
         {
             return plain_modulus_;
         }
+        
+        /**
+        Sets the inherent noise to correspond to that of a freshly encrypted ciphertext using an average-case estimate.
+        */
+        void set_initial_noise_estimate();
+        
+        void reset_noise_estimate(const EncryptionParameters &parms);
 
     private:
         Simulation(const BigUInt &noise, const BigUInt &max_noise, const BigUInt &coeff_modulus, const BigUInt &plain_modulus, int poly_modulus_coeff_count,
@@ -164,11 +171,6 @@ namespace seal
                 && noise_max_deviation_ == simulation.noise_max_deviation_ && decomposition_bit_count_ == simulation.decomposition_bit_count_
                 && poly_modulus_coeff_count_ == simulation.poly_modulus_coeff_count_) && noise_standard_deviation_ == simulation.noise_standard_deviation_;
         }
-
-        /**
-        Sets the inherent noise to correspond to that of a freshly encrypted ciphertext using an average-case estimate.
-        */
-        void set_initial_noise_estimate();
 
         BigUInt noise_;
 

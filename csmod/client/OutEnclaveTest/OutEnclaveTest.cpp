@@ -554,8 +554,10 @@ void EncryptedLogisticRegression(
 	int numTrainingSamples, double learningRate,int nFeatures)
 {
 	Evaluator evaluator(parms);
+    
 	BigPoly encLearningRate = FracEncoder(learningRate);
 	cout << "learningRate: " << learningRate << endl;
+
 //	cout << "Encoded learningRate: " << encLearningRate.to_string() << endl;
 #ifdef DEBUG
 	Decryptor decryptor(parms, secret_key);
@@ -564,19 +566,33 @@ void EncryptedLogisticRegression(
 
 	BigPolyArray inputToSigmoid1 = Encryption(2);
 	BigPolyArray inputToSigmoid2 = Encryption(1);
+ 
+  Simulation sim_input1(parms); // used to estimate the noise WITHOUT decryption key
+  Simulation sim_input2(parms); // used to estimate the noise WITHOUT decryption key
+  SimulationEvaluator sim_evaluator;
+ 
 	int i;
  
 	for (i = 0; i < 10; i++)
-	{
+	{     
 		inputToSigmoid1 = evaluator.add(inputToSigmoid1, inputToSigmoid2);
 		inputToSigmoid1 = evaluator.multiply(inputToSigmoid1, inputToSigmoid2);
-    
+   
+    sim_input1 = sim_evaluator.add(sim_input1, sim_input2);
+    sim_input1 = sim_evaluator.multiply(sim_input1, sim_input2);
+      
     int buffer_length = 0;
 	  char *buffer = inputToSigmoid1.save(buffer_length);
-     
-     
+    
+    cout << "Estimated noise: " << sim_input1.noise_bits()
+			<< "/" << sim_input1.max_noise_bits() << " bits" << endl;
+      
 	  printf("<<<<<<<<<<<<<<<  send chars %d %d\n", buffer[0], buffer[100]);
     send_to_sgx(client_fd, ENCRYPT_DATA, buffer, buffer_length);
+    
+    sim_input1.reset_noise_estimate(parms);
+    cout << "Estimated noise: " << sim_input1.noise_bits()
+			<< "/" << sim_input1.max_noise_bits() << " bits" << endl;
     
     char *read_buf = new char[buffer_length];
     char *tmp = read_buf;

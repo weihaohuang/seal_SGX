@@ -471,6 +471,24 @@ namespace seal
         return simulation;
     }
 
+    void Simulation::reset_noise_estimate(const EncryptionParameters &parms)
+    {
+        coeff_modulus_ = parms.coeff_modulus();
+        plain_modulus_ = parms.plain_modulus();
+        poly_modulus_coeff_count_ = parms.poly_modulus().coeff_count();
+        noise_standard_deviation_ = parms.noise_standard_deviation();
+        noise_max_deviation_ = parms.noise_max_deviation();
+        decomposition_bit_count_ = parms.decomposition_bit_count();
+        ciphertext_size_ = 0;
+    
+        parms.inherent_noise_max(max_noise_);
+        // Set noise
+        set_initial_noise_estimate();
+
+        // Set ciphertext_size_
+        ciphertext_size_ = 2;
+    }
+    
     void Simulation::set_initial_noise_estimate()
     {
         uint64_t growth_factor = static_cast<uint64_t>(sqrt(2 * (poly_modulus_coeff_count_ - 1) / 3));
