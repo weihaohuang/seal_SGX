@@ -281,6 +281,10 @@ void recv_client_msg(int *clients_fd, fd_set *readfds) {
             {
               printf("<<<<<<<<<<<<  Decrease noise in SGX enclave called....<<<<<<last char: %d %d\n", buf[0], buf[100]);
               DecreaseNoise_SGX(eid, clients_fd[i], buf, head.data_len);
+            }else if(head.cmd == STATUS_NOISE)
+            {
+              printf("current noise budget: %d\n", atoi(buf));
+              // decide whether to request for bootstrapping
             }else
             {
               printf(">>> unknown command.\n");

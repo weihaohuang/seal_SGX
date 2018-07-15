@@ -13,7 +13,9 @@ typedef enum command {
     PRIVATE_KEY,
     PUBLIC_KEY,
     ENCRYPT_DATA,
-    DECRYPT_DATA
+    DECRYPT_DATA,
+    STATUS_NOISE,
+    BOOTSTRAPPING
 }command;
 
 /**

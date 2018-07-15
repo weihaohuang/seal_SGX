@@ -580,14 +580,28 @@ void EncryptedLogisticRegression(
    
     sim_input1 = sim_evaluator.add(sim_input1, sim_input2);
     sim_input1 = sim_evaluator.multiply(sim_input1, sim_input2);
+    
+    cout << "Estimated noise: " << sim_input1.noise_bits()
+			<< "/" << sim_input1.max_noise_bits() << " bits" << endl;
+   
+    char message[32] = {0};
+    sprintf(message, "%d", sim_input1.max_noise_bits()- sim_input1.noise_bits());
+    send_to_sgx(client_fd, STATUS_NOISE, message, 32);
+    
+    char response[32] = {0};
+    
+    int mread = read(client_fd, response, 32);
+    if (mread <= 0) {
+      close(client_fd);
+      return;
+    } else {
+      printf("recv %s.\n", response);
+    }
       
     int buffer_length = 0;
 	  char *buffer = inputToSigmoid1.save(buffer_length);
     
-    cout << "Estimated noise: " << sim_input1.noise_bits()
-			<< "/" << sim_input1.max_noise_bits() << " bits" << endl;
-      
-	  printf("<<<<<<<<<<<<<<<  send chars %d %d\n", buffer[0], buffer[100]);
+  	printf("<<<<<<<<<<<<<<<  send chars %d %d\n", buffer[0], buffer[100]);
     send_to_sgx(client_fd, ENCRYPT_DATA, buffer, buffer_length);
     
     sim_input1.reset_noise_estimate(parms);
