@@ -28,7 +28,7 @@ After ``decrease_noise`` when the ciphertext is transferred back to the client, 
   - No secret dependent branches
   - No secret dependent memory accesses (e.g. secret as array index)
   - Memory pool
-- [ ] Evaluation
+- [ ] Evaluation Plan
   - Types
     - bootstrapping
     - single client-server task v.s. leveled HME with bigger parameters sizes
