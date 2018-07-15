@@ -15,12 +15,27 @@ After ``decrease_noise`` when the ciphertext is transferred back to the client, 
   - Needs to bind the keys to each client
   
 ### Missing
+- [ ] Multiple server enclaves
+  - which may have a negtive effect when multiple threads run in a same enclave
 - [ ] Scheduling multiple client requests
   - A simple scheduling method
     - The server maintains a task queue with priorities
     - The client sents the current distance to the threshold after each (or several) homomorphic computation(s)
-    - The server decides which client can send the ciphertext for bootstrapping
-- [ ] Bug fix
+    - The server decides which client can send the ciphertext for bootstrapping: send the decision to the client
+  - Take relinearization (decreasing the size of the ciphertext and slightly increasing the noise), or Galois Automorphisms (supporting batching operations) into consideration to minimize network overhead
+- [ ] Removing side channel leakages
+  - Understand current leakage
+  - No secret dependent branches
+  - No secret dependent memory accesses (e.g. secret as array index)
+  - Memory pool
+- [ ] Evaluation
+  - Types
+    - bootstrapping
+    - single client-server task v.s. leveled HME with bigger parameters sizes
+    - multiple client-server tasks: evaluating scheduling algorithm
+  - Evaluation tasks
+    - Logistic regression
+- [ ] Bug fixes
   - Even if ``decrease_noise`` is not called, the client & server channel sometimes terminate unexpectly.
   - Possible crashes when the data trasfered through socket communication is incorrect. (rare cases)   
     Temporarily fixed by ingnoring buffer length is < 0 or > length
