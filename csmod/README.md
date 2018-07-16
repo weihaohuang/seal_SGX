@@ -30,7 +30,8 @@ After ``decrease_noise`` when the ciphertext is transferred back to the client, 
   - Memory pool
 - [ ] Evaluation Plan
   - Types
-    - bootstrapping
+    - SEAL: add v.s. mul v.s. bootstrapping
+    - bootstrapping (SGX v.s. seal)
     - single client-server task v.s. leveled HME with bigger parameters sizes
     - multiple client-server tasks: evaluating scheduling algorithm
   - Evaluation tasks
