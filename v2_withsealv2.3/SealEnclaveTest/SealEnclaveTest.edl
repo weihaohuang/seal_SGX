@@ -1,0 +1,17 @@
+enclave {
+    from "sgx_tstdc.edl" import *;
+
+    trusted {
+      public void generate_key_sgx();
+  		public void get_public_key([out,size=len] char* public_key_buffer,size_t len);
+  		public void get_secret_key([out,size=len] char* secret_key_buffer,size_t len);
+  		public void DecreaseNoise_SGX([in,out,size=len] char* buf,size_t len);
+  		public void MakeConfigure_SGX([in,size=len] char* ConfigureBuffer,size_t len);
+
+    };
+
+    untrusted {
+        /* define OCALLs here. */
+      void ocall_print([in, string] const char *str);
+    };
+};
