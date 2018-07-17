@@ -237,7 +237,24 @@ void recv_client_msg(int *clients_fd, fd_set *readfds) {
               printf("overflow detected.\n");
               continue;
             }
-            read(clients_fd[i], buf, head.data_len);
+            
+            char *tmp = buf;
+            int total_length = 0;
+        recv:
+            int nread = read(clients_fd[i], tmp, head.data_len);
+    
+            if (nread <= 0) {
+                break;
+            } else {
+                total_length += nread;
+                if(total_length < head.data_len) 
+                {
+                  tmp += nread;
+                  goto recv;
+                }
+            }
+           
+            
             if(head.cmd == ENC_PARAMETER_POLYMOD)
             {
               flag_polymod[i] = true;
