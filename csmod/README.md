@@ -28,9 +28,10 @@ After ``decrease_noise`` when the ciphertext is transferred back to the client, 
   - No secret dependent branches
   - No secret dependent memory accesses (e.g. secret as array index)
   - Memory pool
-- [ ] Evaluation
+- [ ] Evaluation Plan
   - Types
-    - bootstrapping
+    - SEAL: add v.s. mul v.s. bootstrapping
+    - bootstrapping (SGX v.s. seal)
     - single client-server task v.s. leveled HME with bigger parameters sizes
     - multiple client-server tasks: evaluating scheduling algorithm
   - Evaluation tasks
