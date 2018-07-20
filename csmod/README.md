@@ -35,7 +35,9 @@ After ``decrease_noise`` when the ciphertext is transferred back to the client, 
     - single client-server task v.s. leveled HME with bigger parameters sizes
     - multiple client-server tasks: evaluating scheduling algorithm
   - Evaluation tasks
+    - genetic testing
     - Logistic regression
+    
 - [ ] Bug fixes
   - Even if ``decrease_noise`` is not called, the client & server channel sometimes terminate unexpectly.
   - Possible crashes when the data trasfered through socket communication is incorrect. (rare cases)   
